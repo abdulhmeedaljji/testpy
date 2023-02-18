@@ -1,0 +1,72 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="row mt-5 mb-3">
+    <div class="col-md-12 d-flex justify-content-center">
+        <a class="category-a flex-sm-fill text-sm-center p-3 btn btn-dark m-1" aria-current="page" href="#" style="background: #369A7E;">All</a>
+        {% for category in categories %}
+            <a class="category-a flex-sm-fill text-sm-center p-3 m-1 btn btn-outline-dark" aria-current="page" href="#">{{ category.name }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row">
+    {% if searched %}
+        <h1>You searched for {{ searched }}</h1>
+    {% endif %}
+        <form method="POST" action="{% url 'store' %}" class="form-inline my-2 my-lg-0">
+        {% csrf_token %}
+            <div class="row">
+            <div class="col-md-11">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searched">
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-outline-success mr" style="float: right;" type="submit">Search</button>
+            </div>
+            </div>
+        </form>
+</div>
+
+<div class="row" style="">
+        {% for product in products  %}
+        <div class="col-lg-4">
+            <img class="thumbnail" src="/media/{{ product.image }}">
+            <div class="box-element product">
+                <h6><strong>{{ product.name }}</strong></h6>
+                <hr>
+                
+                <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary update-cart">Add To Cart</button>
+                <a class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{ product.id }}">View</a>
+                <h4 style="inline-block; float: right;">{{ product.price }}$</h4>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+{% for product in products  %}
+<!-- Modal -->
+<div class="modal fade" id="exampleModal{{product.id}}" tabindex="-1" aria-labelledby="exampleModal{{product.id}}Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModal{{product.id}}Label">{{ product.name }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="/media/{{product.image}}" style="max-width: 100%;">
+        <p class="mt-2">{{product.description}}</p>
+      </div>
+      <div class="modal-footer">
+        <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary update-cart">Add To Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock content %}
+
+

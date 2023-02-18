@@ -1,0 +1,19 @@
+@media(max-width:800px) {
+    .card {
+        width: 330px
+    }
+
+    .left_side {
+        display: none;
+
+    }
+
+    .right_side {
+        width: 100%;
+        border-top-left-radius:9px;
+        border-bottom-left-radius:9px;
+    }
+}
+.warning{
+    border:1px solid red !important;
+}

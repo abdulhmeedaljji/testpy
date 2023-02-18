@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% for event in events %}
+<a href="{{ event.url }}">{{ event.title }}</a>
+{{ event.description|truncatewords:30 }}
+{% endfor %}
+</body>
+</html>

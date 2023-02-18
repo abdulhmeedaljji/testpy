@@ -1,0 +1,284 @@
+<!doctype html>
+{% load static %}
+{% include 'partials/_head.html' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static '/css/home.css' %}" />
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+    <link rel="stylesheet" href="https://npm-scalableminds.s3.eu-central-1.amazonaws.com/@scalableminds/chatroom@master/dist/Chatroom.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/store.css' %}">
+{% endblock %}
+  <body>
+    {% include 'partials/_header.html' %}
+{% comment %} 
+            <a href="/cart">
+                <img  id="cart-icon" src="{% static 'images/cart.png' %}">
+            </a>
+            <p id="cart-total">{{ forder.get_cart_items }}</p> {% endcomment %}
+    <div class="container">
+        {% block content %}
+        
+        {% endblock content %}
+    </div>
+    {% include 'partials/_footer.html' %}
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    -->
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        pagination: {
+          el: ".swiper-pagination",
+        },
+        effect: "slide",
+        speed: 1500,
+      });
+        $('#slidel1').click(swiper,function(){
+            swiper.slideTo(0);
+
+        });
+        $('#slidel2').click(swiper,function(){
+            swiper.slideTo(1);
+        });
+        $('#slidel3').click(swiper,function(){
+            swiper.slideTo(2);
+        });
+        $('#slidel4').click(swiper,function(){
+            swiper.slideTo(3);
+        });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).on('submit', '#disease-form1', function(e) {
+            e.preventDefault();
+            $form = $(this);
+            var formData = new FormData(this);
+            $.ajax({
+                url: '/hi2',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    $('.error').remove();
+                    console.log(response)
+                    if(response.error){
+                        $.each(response.errors, function(name, error){
+                            error = '<small class="text-muted error">' + error + '</small>'
+                            $form.find('[name=' + name + ']').after(error);
+                        })
+                    }
+                    else{
+                        //alert(response.message);
+                        $('#disease-name').html(response.name1);
+                        $('#disease-description').html(response.description1);
+                        $('#disease-cause').html(response.cause1);
+                        $('#disease-treatment').html(response.treatment1);
+                        //window.location = ""
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).on('submit', '#disease-form', function(e) {
+            e.preventDefault();
+            $.ajax({
+                method: 'POST',
+                url: '/hi2',
+                processData: false,
+                contentType: false,
+                mimeType: "multipart/form-data",
+                success: function () {
+                    /*var json= JSON.parse(data);
+                   console.log(json['myname']);
+                   $('#hi').html(json['myname']);*/
+                   console.log("done");
+                }
+            });
+        });
+    </script>
+
+    <script>
+        Dropzone.autoDiscover = false;
+
+        const myDropzone = new Dropzone("#my-dropzone", {
+            url: "/hi1",
+            maxFiles: 1,
+            maxFilesize: 2,
+            acceptedFiles: '.jpg, .png',
+            addRemoveLinks: true,
+        });
+    </script>
+    <script>
+        $(function () {
+            $(document).scroll(function () {
+                var $nav = $(".navbar-fixed-top");
+                $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+            });
+        });
+    </script>
+    <script>
+        var a1 = $(".ac-an");
+        var as1 = $(".new-animate")
+        a1.on('click', function() {
+            as1.css("display", "none");
+            as1.removeClass('aos-animate');
+
+            setTimeout(function() {
+                as1.css("display", "block");
+            }, 500);
+            setTimeout(function() {
+                as1.toggleClass('aos-animate');
+            }, 1000);
+        });
+    </script>
+    <script>
+    $('.slide-links').on('click', 'i', function() {
+        $('.slide-links i.lactive').removeClass('lactive');
+        $(this).addClass('lactive');
+    });
+    </script>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah1')
+                        .attr('src', e.target.result);
+                        //.width(150)
+                        //.height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function cardDisplay() {
+            $('.disease-card').css('display', 'block');
+        }
+
+        $("#disease-button").click(function() {
+            $('html, body').animate({
+                scrollTop: $("#disease-card1").offset().top
+            }, 2000);
+        });
+    </script>
+      <script src="https://npm-scalableminds.s3.eu-central-1.amazonaws.com/@scalableminds/chatroom@master/dist/Chatroom.js"/></script>
+  <script type="text/javascript">
+    var chatroom = new window.Chatroom({
+      host: "http://localhost:5005",
+      title: "IGreen ChatBot",
+      container: document.querySelector(".chat-container"),
+      welcomeMessage: "Hi {{user}}, I am ChatBot. How may I help you?",
+      speechRecognition: "en-US",
+      voiceLang: "en-US"
+    });
+    chatroom.openChat();
+  </script>
+
+    <script>
+        $('.aa').click(function(event){
+            event.preventDefault();
+            var page_n = $(this).attr('href');
+            // ajax
+                $.ajax({
+                        type: "POST",
+                        url: "{% url 'Home' %}", // name of url
+                        data : {    
+                        page_n : page_n, //page_number
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    success: function (resp) {
+                        //loop
+                        //$('#land').html('')
+                    $.each(resp.results, function(i, val) {
+                        //apending posts
+                        $('#posts').append('<h2>' + val.owner + '</h2><h3>' + val.location + '</h3>')
+                        $('.ids').text(val.id);
+                        $('.humidities').html(val.humidities);
+                        $('.pressures').html(val.humidities);
+                        $('.locations').html(val.location);
+                        $('.plants').html(val.plant);
+                    });
+                    /*
+                    $.each(resp.loc, function(i, val) {
+                        $('.loc').text(val.loc);
+                    })*/
+                    $('.temps').html(resp.data.temp + " °C");
+                    $('.humidities').html(resp.data.humidity);
+                    $('.pressures').html(resp.data.pressure);
+                    $('.mains').html(resp.data.main);
+                    $('.descriptions').html(resp.data.description);
+                    $('.weathericons').attr("src", "http://openweathermap.org/img/w/" + resp.data.icon + ".png");
+                    /*$('.mains').html(resp.data.main);
+                    $('descriptions').html(resp.data.description);*/
+                    $('.sols').html(resp.sol1);
+                    var plantName = resp.results[0].plant;
+                    console.log("THE PLANT:: " + plantName);
+                    if (plantName == "Apple") {
+                        console.log("Hello from Apple!!!");
+                        $('.land').css("background-image", "url({% static '/images/apple1.jpg' %}");
+                    } else if (plantName == "Potato") {
+                        console.log("Hello from Potato!!!");
+                        $('.land').css("background-image", "url({% static '/images/potato.jpg' %}");
+                    }
+                    
+                    },
+                    error: function () {}
+                }); // 
+
+        });   
+    </script>
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    -->
+    <script>
+      function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              const cookies = document.cookie.split(';');
+              for (let i = 0; i < cookies.length; i++) {
+                  const cookie = cookies[i].trim();
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+      const csrftoken = getCookie('csrftoken');
+
+    </script>
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+  </body>
+</html>
